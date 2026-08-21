@@ -35,7 +35,7 @@ Every result is stored in a JSON file in the app's private storage (at most 200 
 Exact data flow:
 
 - **Sent over the network:** the phone number of the incoming call, in one HTTPS request to the AI provider you selected, with your API key in the request header. In *On demand* mode nothing is sent until you tap *Scan caller*. Withheld/private numbers are never looked up because there is nothing to send.
-- **Stored on the device:** your API key(s) in `EncryptedSharedPreferences` (backed by the Android Keystore), your settings, and the lookup history file. Keys are never logged.
+- **Stored on the device:** your API key(s) in `EncryptedSharedPreferences` (backed by the Android Keystore), your settings, and the lookup history file. Keys are never logged. If the Android Keystore is unavailable, keys fall back to ordinary app-private storage (still excluded from backup).
 - **Sent to anyone else:** nothing. No analytics, no crash reporting, no ads, no accounts, no app server.
 
 Permissions requested:

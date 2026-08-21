@@ -28,7 +28,7 @@ If a number is already in the local history, it is answered from the cache and n
 
 ## What is stored on the device
 
-- **API keys**, in `EncryptedSharedPreferences` backed by the Android Keystore. They are excluded from Android cloud backup and device-to-device transfer, and are never written to logs.
+- **API keys**, in `EncryptedSharedPreferences` backed by the Android Keystore. They are excluded from Android cloud backup and device-to-device transfer, and are never written to logs. On devices where the Android Keystore is unavailable, the app falls back to ordinary app-private preferences (still excluded from backup).
 - **Lookup history**, a JSON file in the app's private storage containing the number, the AI result (name, category, risk, location, summary, sources) and a timestamp, limited to the 200 most recent entries. This file is private to the app. It may be included in Android's standard app backup if you have device backup enabled.
 - **Settings**, such as the chosen provider and scan mode.
 

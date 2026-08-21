@@ -10,10 +10,10 @@
     <string name="overlay_action">Grant</string>
     <string name="notif_row_label">Notifications</string>
     <string name="notif_action">Grant</string>
-    <string name="key_row_label">Gemini API key</string>
+    <string name="key_row_label">API key</string>
     <string name="key_action_set">Set key</string>
     <string name="key_action_change">Change key</string>
-    <string name="key_dialog_title">Gemini API key</string>
+    <string name="key_dialog_title">API key</string>
     <string name="key_dialog_help">Get a free Gemini API key at aistudio.google.com/app/apikey and paste it here. The key is stored encrypted on this device and is sent only to the Gemini API.</string>
     <string name="key_dialog_save">Save</string>
     <string name="key_dialog_clear">Clear</string>
@@ -54,7 +54,7 @@
     <string name="overlay_privacy_prompt">Nothing has left your device yet. Scan this caller?</string>
 
     <!-- Errors -->
-    <string name="error_no_key">No API key configured. Add your Gemini API key in the app.</string>
+    <string name="error_no_key">No API key configured. Add your API key in the app.</string>
     <string name="error_bad_key">Invalid or unauthorized API key</string>
     <string name="error_quota">Rate limit or quota exceeded</string>
     <string name="error_bad_number">That does not look like a valid phone number</string>

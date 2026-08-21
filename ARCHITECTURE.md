@@ -3,6 +3,15 @@
 This document is the single source of truth for the implementation. Writers implement EXACTLY the
 names, signatures, and resource identifiers specified here. Any deviation must be reported.
 
+> **Status note — the code is authoritative.** This is the original single-provider build
+> contract. Where it differs from the code, the code and the "Provider abstraction" addendum at
+> the end take precedence. Superseded points: `IntelRepository(context, prefs, clientProvider: () -> LookupClient)`
+> (not a bare `GeminiClient`); `GeminiClient` and `GroqClient` both implement `LookupClient`, with
+> shared prompt and number validation in `ai/LookupClient.kt` (`LookupPrompt`); the Gemini client
+> also retries ungrounded on any HTTP 429; `CallScreenerService` calls `respondToCall` first, then
+> checks call direction; and the repository root is itself the Gradle project (the `android/…` paths
+> in File ownership below are relative to that root).
+
 ## Product behavior (locked by product owner)
 
 - On incoming call, the app gets the number via `CallScreeningService`, never blocks or delays the
