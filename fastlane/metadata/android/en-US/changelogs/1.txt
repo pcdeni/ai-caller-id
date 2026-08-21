@@ -1,0 +1,8 @@
+First release.
+
+- Caller lookup on incoming calls via the Android call screening role; calls are never blocked or delayed.
+- Floating overlay card (notification fallback) with name, category, risk badge, location, summary and sources.
+- Bring your own key: Groq (free tier) or Google Gemini, requests go directly from the phone to the provider.
+- Auto and On-demand scan modes.
+- Local history and cache (up to 200 entries) with Clear.
+- E-ink friendly UI, no Google Play Services needed.

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink_black">#111111</color>
+    <color name="paper_white">#FFFFFF</color>
+    <color name="paper_bg">#F4F3ED</color>
+    <color name="accent_blue">#2563EB</color>
+    <color name="risk_red">#DC2626</color>
+    <color name="risk_amber">#D97706</color>
+    <color name="risk_green">#059669</color>
+    <color name="risk_gray">#6B7280</color>
+    <color name="border_gray">#D1D5DB</color>
+    <color name="text_secondary">#4B5563</color>
+    <color name="ic_launcher_background">#111111</color>
+</resources>

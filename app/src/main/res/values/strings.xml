@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Caller ID</string>
+
+    <!-- Setup checklist -->
+    <string name="checklist_title">Setup checklist</string>
+    <string name="role_row_label">Call screening role</string>
+    <string name="role_action">Grant</string>
+    <string name="overlay_row_label">Display over other apps</string>
+    <string name="overlay_action">Grant</string>
+    <string name="notif_row_label">Notifications</string>
+    <string name="notif_action">Grant</string>
+    <string name="key_row_label">Gemini API key</string>
+    <string name="key_action_set">Set key</string>
+    <string name="key_action_change">Change key</string>
+    <string name="key_dialog_title">Gemini API key</string>
+    <string name="key_dialog_help">Get a free Gemini API key at aistudio.google.com/app/apikey and paste it here. The key is stored encrypted on this device and is sent only to the Gemini API.</string>
+    <string name="key_dialog_save">Save</string>
+    <string name="key_dialog_clear">Clear</string>
+    <string name="status_done">Done</string>
+    <string name="status_missing">Missing</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="provider_title">AI provider</string>
+    <string name="provider_gemini">Gemini</string>
+    <string name="provider_groq">Groq</string>
+    <string name="key_row_label_fmt">%1$s API key</string>
+    <string name="key_dialog_help_groq">Get a free Groq API key at console.groq.com/keys and paste it here. The key is stored encrypted on this device and is sent only to the Groq API.</string>
+    <string name="scan_mode_auto">Auto: scan every incoming call</string>
+    <string name="scan_mode_on_demand">On demand: scan only when I tap</string>
+    <string name="unlock_stub_label">App unlocked (one-time purchase stub)</string>
+    <string name="unlock_action">Unlock the app</string>
+    <string name="unlock_action_price">Unlock · %1$s</string>
+    <string name="unlock_done">Unlocked ✓</string>
+
+    <!-- Manual lookup -->
+    <string name="lookup_title">Manual lookup</string>
+    <string name="lookup_hint">Phone number</string>
+    <string name="lookup_action">Look up</string>
+    <string name="preview_action">Preview overlay card</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_clear">Clear</string>
+    <string name="history_empty">No lookups yet</string>
+
+    <!-- Emulator tip -->
+    <string name="emulator_tip">Emulator tip: with the call screening role granted, run \"adb emu gsm call 5551234567\" on your computer to simulate an incoming call. Extended Controls > Phone in the emulator window works too.</string>
+
+    <!-- Overlay card -->
+    <string name="overlay_scanning">Analyzing caller…</string>
+    <string name="overlay_scan_action">Scan caller</string>
+    <string name="overlay_retry">Retry</string>
+    <string name="overlay_dismiss">Dismiss</string>
+    <string name="overlay_cached_tag">cached</string>
+    <string name="overlay_ungrounded_tag">no live search</string>
+    <string name="overlay_privacy_prompt">Nothing has left your device yet. Scan this caller?</string>
+
+    <!-- Errors -->
+    <string name="error_no_key">No API key configured. Add your Gemini API key in the app.</string>
+    <string name="error_bad_key">Invalid or unauthorized API key</string>
+    <string name="error_quota">Rate limit or quota exceeded</string>
+    <string name="error_bad_number">That does not look like a valid phone number</string>
+    <string name="error_locked">App locked. Purchase the one-time unlock to enable lookups.</string>
+    <string name="error_network">Network error. Check your connection and try again.</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Caller intelligence</string>
+    <string name="notif_scan_prompt_title">Scan incoming caller?</string>
+</resources>

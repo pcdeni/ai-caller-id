@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AICallerID" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/paper_bg</item>
+        <item name="colorPrimary">@color/ink_black</item>
+        <item name="colorSecondary">@color/accent_blue</item>
+        <item name="android:statusBarColor">@color/paper_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

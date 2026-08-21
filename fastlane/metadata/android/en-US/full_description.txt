@@ -1,0 +1,39 @@
+AI Caller ID shows you who is calling before you pick up. When a call rings, Android hands the number to the app through the call screening role. The app asks an AI model with web search about the number and shows a floating card over the incoming-call screen with a name, a category, a risk badge (Safe, Low, Medium or High Risk / Scam), a location, a one- or two-sentence summary and the web sources it used. If the overlay permission is missing, the same result is shown as a notification. The card dismisses itself after 45 seconds.
+
+The app never blocks, rejects or delays calls. It only reads the incoming number and shows information.
+
+Bring your own key, no server
+
+There is no server run by the app author. Every lookup is a single HTTPS request from your phone straight to the AI provider you picked, authenticated with your own API key. Nothing passes through any third party in between, and the author never sees your numbers or your key.
+
+Two providers are supported:
+
+Groq: uses the groq/compound-mini model (falls back to groq/compound), which has built-in web search. Groq offers a free tier that does not require a credit card. Get a key at console.groq.com/keys.
+
+Google Gemini: uses gemini-3.7-flash with Google Search grounding. Grounded search requires a Gemini API key with billing enabled; free keys get rate-limited (HTTP 429) on grounded calls. In that case the app retries without search and labels the result "no live search". Get a key at aistudio.google.com/app/apikey.
+
+Keys are stored on the device in encrypted preferences backed by the Android Keystore, are excluded from Android backups, are sent only in the request header to the chosen provider and are never written to logs.
+
+Scan modes
+
+Auto: every incoming call is looked up as soon as it rings.
+
+On demand: the card shows only the number and a "Scan caller" button. Nothing is sent over the network until you tap it.
+
+Withheld or private numbers are never looked up, because there is nothing to send.
+
+Local history and cache
+
+Results are kept in a JSON file in the app's private storage (at most 200 entries). A repeat caller is answered from this cache instantly and offline, with no API call. The History screen lists past lookups and has a Clear button.
+
+Permissions
+
+INTERNET to reach the provider you chose. SYSTEM_ALERT_WINDOW (display over other apps) for the floating card. POST_NOTIFICATIONS for the fallback notification. The call screening role, which is how Android passes the incoming number to the app.
+
+The app does not request call log, phone state or contacts access. It has no analytics, no trackers, no ads, no accounts and no Google Play Services dependency, so it runs on de-Googled phones, including e-ink phones such as the Hisense A5 series or Bigme devices. The interface is built for e-ink: no animations, solid high-contrast colors, bold text.
+
+Limitations
+
+AI answers can be wrong or incomplete; treat the risk badge as a hint, not a verdict. Lookups work best for businesses, institutions and known spam or scam lines; private mobile numbers often come back as "Unknown". A lookup takes a few seconds, so the card may appear mid-ring. You are subject to your provider's rate limits, especially on free tiers. Android 10 or newer is required.
+
+Available through F-Droid, IzzyOnDroid and GitHub Releases (also installable with Obtainium). Source code is licensed under the GPL-3.0-or-later and issues are tracked on GitHub.

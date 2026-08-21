@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_corner">12dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="screen_padding">16dp</dimen>
+    <dimen name="overlay_margin">12dp</dimen>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared preferences hold the API key (EncryptedSharedPreferences); the keystore
+     master key never leaves the device, so backing them up would restore ciphertext
+     that can never be decrypted. Exclude all shared prefs; history.json may back up. -->
+<full-backup-content>
+    <exclude domain="sharedpref" path="." />
+</full-backup-content>
