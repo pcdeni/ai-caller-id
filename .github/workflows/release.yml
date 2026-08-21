@@ -13,37 +13,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check that signing secrets are configured
+      # Signing material is user-owned and lives only in GitHub Actions secrets.
+      # Without it we cannot produce an installable (signed) APK, so the release
+      # is skipped cleanly instead of failing. F-Droid builds from the tag itself
+      # and needs none of this. See .github/RELEASING.md to enable signed releases.
+      - name: Check signing secrets
+        id: signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           if [ -z "$KEYSTORE_BASE64" ]; then
-            echo "::error::Secret KEYSTORE_BASE64 is empty or missing. Add the four signing secrets (KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD) under Settings -> Secrets and variables -> Actions. See .github/RELEASING.md."
-            exit 1
+            echo "::warning::No signing secrets configured; skipping the signed GitHub Release for this tag. Add KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD (Settings -> Secrets and variables -> Actions), then re-run this workflow. See .github/RELEASING.md."
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Check out
+        if: steps.signing.outputs.configured == 'true'
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
+        if: steps.signing.outputs.configured == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
       - name: Set up Gradle
+        if: steps.signing.outputs.configured == 'true'
         uses: gradle/actions/setup-gradle@v4
 
       - name: Make gradlew executable
+        if: steps.signing.outputs.configured == 'true'
         run: chmod +x ./gradlew
 
       # keystore.jks and keystore.properties are both gitignored; they live only in this job's workspace.
       - name: Decode keystore
+        if: steps.signing.outputs.configured == 'true'
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: echo "$KEYSTORE_BASE64" | base64 --decode > keystore.jks
 
       - name: Write keystore.properties
+        if: steps.signing.outputs.configured == 'true'
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -57,9 +70,11 @@ jobs:
           } > keystore.properties
 
       - name: Build release APK
+        if: steps.signing.outputs.configured == 'true'
         run: ./gradlew assembleRelease --no-daemon
 
       - name: Rename APK
+        if: steps.signing.outputs.configured == 'true'
         run: |
           mkdir -p dist
           mv app/build/outputs/apk/release/app-release.apk "dist/ai-caller-id-${GITHUB_REF_NAME}.apk"
@@ -69,6 +84,7 @@ jobs:
         run: rm -f keystore.jks keystore.properties
 
       - name: Create GitHub Release
+        if: steps.signing.outputs.configured == 'true'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/ai-caller-id-${{ github.ref_name }}.apk
