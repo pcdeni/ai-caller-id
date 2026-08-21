@@ -163,49 +163,11 @@ class MainActivity : AppCompatActivity() {
             prefs.scanMode =
                 if (checkedId == R.id.scanModeAuto) ScanMode.AUTO else ScanMode.ON_DEMAND
         }
-        if (BuildConfig.DEBUG) {
-            binding.unlockSwitch.isChecked = prefs.appUnlockedStub
-            binding.unlockSwitch.setOnCheckedChangeListener { _, isChecked ->
-                prefs.appUnlockedStub = isChecked
-            }
-        } else {
-            binding.unlockSwitch.visibility = View.GONE
-            binding.unlockButton.visibility = View.VISIBLE
-            binding.unlockButton.setOnClickListener {
-                App.instance.billing.launchPurchase(this)
-            }
-            App.instance.billing.onStateChanged = {
-                runOnUiThread { refreshUnlockButton() }
-            }
-            refreshUnlockButton()
-        }
-    }
-
-    private fun refreshUnlockButton() {
-        val unlocked = App.instance.prefs.appUnlockedStub
-        val price = App.instance.billing.formattedPrice
-        binding.unlockButton.isEnabled = !unlocked
-        binding.unlockButton.text = when {
-            unlocked -> getString(R.string.unlock_done)
-            price != null -> getString(R.string.unlock_action_price, price)
-            else -> getString(R.string.unlock_action)
-        }
-    }
-
-    override fun onDestroy() {
-        if (!BuildConfig.DEBUG) {
-            App.instance.billing.onStateChanged = null
-        }
-        super.onDestroy()
     }
 
     private fun setupLookup() {
         binding.lookupButton.setOnClickListener {
             val number = binding.lookupInput.text?.toString()?.trim().orEmpty()
-            if (!App.instance.prefs.appUnlockedStub) {
-                showLookupError(getString(R.string.error_locked))
-                return@setOnClickListener
-            }
             binding.lookupButton.isEnabled = false
             showLookupLoading()
             lifecycleScope.launch {

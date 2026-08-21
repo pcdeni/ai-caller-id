@@ -3,7 +3,6 @@ package com.pcdeni.aicallerid.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.pcdeni.aicallerid.BuildConfig
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
@@ -60,14 +59,6 @@ class Prefs(context: Context) {
             store.edit().putString(KEY_SCAN_MODE, value.name).apply()
         }
 
-    // Debug builds default to unlocked (stub switch); release builds stay locked until
-    // Play Billing grants or restores the one-time purchase.
-    var appUnlockedStub: Boolean
-        get() = store.getBoolean(KEY_UNLOCKED, BuildConfig.DEBUG)
-        set(value) {
-            store.edit().putBoolean(KEY_UNLOCKED, value).apply()
-        }
-
     private fun createStore(context: Context): SharedPreferences = try {
         val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -93,6 +84,5 @@ class Prefs(context: Context) {
         const val KEY_API_KEY_GROQ = "api_key_groq"
         const val KEY_PROVIDER = "provider"
         const val KEY_SCAN_MODE = "scan_mode"
-        const val KEY_UNLOCKED = "app_unlocked_stub"
     }
 }

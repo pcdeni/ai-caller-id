@@ -48,7 +48,7 @@ When you run a lookup, the provider you selected receives the phone number and y
 
 - **On demand mode** ensures nothing is sent for a call unless you tap "Scan caller".
 - **History screen, Clear** deletes the entire local history file.
-- **Remove key** in settings deletes the stored API key. You can also revoke the key in the provider's console at any time.
+- **Clear** in the API key dialog deletes the stored API key. You can also revoke the key in the provider's console at any time.
 - **Uninstalling** the app deletes all of its local data.
 - Revoking the call screening role or the overlay permission in Android settings stops the app from seeing incoming numbers or showing the card, respectively.
 

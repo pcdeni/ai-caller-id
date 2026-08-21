@@ -29,10 +29,6 @@
     <string name="key_dialog_help_groq">Get a free Groq API key at console.groq.com/keys and paste it here. The key is stored encrypted on this device and is sent only to the Groq API.</string>
     <string name="scan_mode_auto">Auto: scan every incoming call</string>
     <string name="scan_mode_on_demand">On demand: scan only when I tap</string>
-    <string name="unlock_stub_label">App unlocked (one-time purchase stub)</string>
-    <string name="unlock_action">Unlock the app</string>
-    <string name="unlock_action_price">Unlock · %1$s</string>
-    <string name="unlock_done">Unlocked ✓</string>
 
     <!-- Manual lookup -->
     <string name="lookup_title">Manual lookup</string>
@@ -62,7 +58,6 @@
     <string name="error_bad_key">Invalid or unauthorized API key</string>
     <string name="error_quota">Rate limit or quota exceeded</string>
     <string name="error_bad_number">That does not look like a valid phone number</string>
-    <string name="error_locked">App locked. Purchase the one-time unlock to enable lookups.</string>
     <string name="error_network">Network error. Check your connection and try again.</string>
 
     <!-- Notifications -->

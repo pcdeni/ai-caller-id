@@ -1,1 +1,1 @@
-AI lookup of incoming callers, sent directly to Groq or Gemini with your own key
+Identify incoming callers with AI, using your own Groq or Gemini API key

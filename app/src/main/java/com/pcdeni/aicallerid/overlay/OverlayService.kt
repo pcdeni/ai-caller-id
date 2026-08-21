@@ -113,11 +113,6 @@ class OverlayService : Service() {
     private fun handleScanNow(number: String) {
         currentNumber = number
         if (!Settings.canDrawOverlays(this)) {
-            if (!App.instance.prefs.appUnlockedStub) {
-                NotificationHelper.postError(this, number, getString(R.string.error_locked))
-                stopSelf()
-                return
-            }
             runLookupToNotification(number)
             return
         }
@@ -145,11 +140,6 @@ class OverlayService : Service() {
 
     private fun startScan(number: String) {
         lookupJob?.cancel()
-        if (!App.instance.prefs.appUnlockedStub) {
-            ensureController().showError(number, getString(R.string.error_locked))
-            resetDismissTimer()
-            return
-        }
         ensureController().showScanning(number)
         resetDismissTimer()
         lookupJob = scope.launch {

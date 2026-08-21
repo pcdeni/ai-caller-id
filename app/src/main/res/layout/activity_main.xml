@@ -241,23 +241,6 @@
                     android:textColor="@color/ink_black"
                     android:textSize="14sp" />
             </RadioGroup>
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/unlockSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/unlock_stub_label"
-                android:textColor="@color/ink_black"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/unlockButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/unlock_action"
-                android:visibility="gone" />
         </LinearLayout>
 
         <!-- Section 3: manual lookup -->

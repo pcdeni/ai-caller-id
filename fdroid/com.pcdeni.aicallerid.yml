@@ -17,7 +17,7 @@ IssueTracker: https://github.com/pcdeni/ai-caller-id/issues
 Changelog: https://github.com/pcdeni/ai-caller-id/releases
 
 AutoName: AI Caller ID
-Summary: AI lookup of incoming callers, sent directly to Groq or Gemini with your own key
+Summary: Identify incoming callers with AI, using your own Groq or Gemini API key
 Description: |-
   AI Caller ID shows you who is calling before you pick up. When a call rings, Android hands the number to the app through the call screening role. The app asks an AI model with web search about the number and shows a floating card over the incoming-call screen with a name, a category, a risk badge (Safe, Low, Medium or High Risk / Scam), a location, a one- or two-sentence summary and the web sources it used. If the overlay permission is missing, the same result is shown as a notification. The card dismisses itself after 45 seconds.
 

@@ -20,9 +20,6 @@ class CallScreenerService : CallScreeningService() {
             return
         }
         val prefs = App.instance.prefs
-        if (!prefs.appUnlockedStub) {
-            return
-        }
         OverlayService.startIncoming(this, number, auto = prefs.scanMode == ScanMode.AUTO)
     }
 }

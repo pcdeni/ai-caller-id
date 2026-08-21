@@ -14,9 +14,8 @@ names, signatures, and resource identifiers specified here. Any deviation must b
   fallback; free tier, no credit card).
 - Privacy modes: `AUTO` (scan every incoming call) or `ON_DEMAND` (overlay shows a "Scan caller"
   button; nothing leaves the device until tapped).
-- Monetization is a one-time unlock (Play Billing one-time in-app product, integrated later).
-  v1 ships a stub gate (persisted boolean `appUnlockedStub`, UI switch labeled as stub). When
-  locked: no scanning, manual lookup blocked with an explanatory message.
+- Free and open source (GPL-3.0-or-later), distributed via F-Droid and GitHub. No paywall,
+  no billing code, no proprietary dependencies.
 - Results are cached locally (repeat callers resolve instantly, offline, and save quota).
 - UI is e-ink friendly: no animations, solid opaque colors, high contrast, bold text.
 
@@ -147,13 +146,16 @@ data class CallerIntel(
 
 ```kotlin
 enum class ScanMode { AUTO, ON_DEMAND }
+enum class Provider { GEMINI, GROQ }
 
 class Prefs(context: Context) {
     var apiKey: String?                 // EncryptedSharedPreferences; wrap creation in
                                         // try/catch, fall back to plain SharedPreferences
                                         // named "prefs_fallback" if keystore fails
     var scanMode: ScanMode              // default AUTO
-    var appUnlockedStub: Boolean        // default true (one-time purchase stub)
+    var provider: Provider              // GEMINI (default) or GROQ
+    var apiKeyGroq: String?             // Groq key, same encrypted store
+    var activeApiKey: String?           // key of the selected provider
 }
 ```
 
@@ -311,7 +313,6 @@ class CallScreenerService : android.telecom.CallScreeningService() {
 - ALWAYS immediately `respondToCall(callDetails, CallResponse.Builder().build())` (never block,
   never delay — the lookup must not gate the response).
 - Number: `callDetails.handle?.schemeSpecificPart`; null/blank (withheld number) -> do nothing.
-- If `!App.instance.prefs.appUnlockedStub` -> do nothing (silent).
 - Else `OverlayService.startIncoming(this, number, auto = prefs.scanMode == ScanMode.AUTO)`.
 
 ### util/RoleHelper.kt (W3)
@@ -336,11 +337,10 @@ Single scrollable screen (NestedScrollView > vertical LinearLayout), sections:
    with a password-transform EditText prefilled from prefs, Save/Clear buttons, and helper text
    `@string/key_dialog_help` linking users to aistudio.google.com/app/apikey (plain text, no
    browser launch needed).
-2. **Settings** — RadioGroup for scan mode (AUTO / ON_DEMAND), MaterialSwitch for
-   "App unlocked (one-time purchase stub)", both persisted to Prefs immediately.
+2. **Settings** — RadioGroup for AI provider (Gemini / Groq) and RadioGroup for scan mode
+   (AUTO / ON_DEMAND), both persisted to Prefs immediately.
 3. **Manual lookup** — EditText (inputType phone) + "Look up" Button + result TextView block
-   (name, badge line, summary, sources count). Blocked with `error_subscription` when stub
-   inactive. Runs `repository.lookup(number, forceFresh = false)` in `lifecycleScope`.
+   (name, badge line, summary, sources count). Runs `repository.lookup(number, forceFresh = false)` in `lifecycleScope`.
 4. **Preview** — Button "Preview overlay card" -> `OverlayService.startPreview(this)` (uses
    canned CallerIntel, lets the user see the overlay without a call; if no overlay permission,
    posts the preview as a notification).
@@ -385,11 +385,11 @@ light status bar icons true.
 `role_action`, `overlay_row_label`, `overlay_action`, `notif_row_label`, `notif_action`,
 `key_row_label`, `key_action_set`, `key_action_change`, `key_dialog_title`, `key_dialog_help`,
 `key_dialog_save`, `key_dialog_clear`, `settings_title`, `scan_mode_auto`, `scan_mode_on_demand`,
-`unlock_stub_label`, `lookup_title`, `lookup_hint`, `lookup_action`, `preview_action`,
+`lookup_title`, `lookup_hint`, `lookup_action`, `preview_action`,
 `history_title`, `history_clear`, `history_empty`, `emulator_tip`, `overlay_scanning`,
 `overlay_scan_action`, `overlay_retry`, `overlay_dismiss`, `overlay_cached_tag` ("cached"),
 `overlay_ungrounded_tag` ("no live search"), `overlay_privacy_prompt`, `error_no_key`,
-`error_bad_key`, `error_quota`, `error_bad_number`, `error_locked`, `error_network`,
+`error_bad_key`, `error_quota`, `error_bad_number`, `error_network`,
 `notif_channel_name`, `notif_scan_prompt_title`, `status_done`, `status_missing`.
 All user-visible text in W2/W3 code MUST come from these resources (no hardcoded literals).
 
@@ -411,3 +411,13 @@ radius), `bg_button_primary` (rect `ink_black` fill, white text assumed, `card_c
   called before the lookup). No decorative comments.
 - Every class compiles against compileSdk 34 with `minSdk 29` guards where APIs demand
   (`Build.VERSION.SDK_INT >= 33` for POST_NOTIFICATIONS).
+
+## Provider abstraction (added after the initial build)
+
+`ai/LookupClient.kt` defines `interface LookupClient { suspend fun lookup(phoneNumber, apiKey): Result<CallerIntel> }`
+plus `LookupPrompt` (shared system text, prompt, and number validation). `GeminiClient` and
+`GroqClient` (`groq/compound-mini`, fallback `groq/compound`, OpenAI-compatible chat endpoint,
+`Authorization: Bearer`) implement it. `App.activeClient()` picks one from `Prefs.provider`;
+`IntelRepository` receives a `() -> LookupClient` and uses `Prefs.activeApiKey`. Gemini retries
+without the search tool on HTTP 429 (free keys have no grounding quota) and marks such results
+`grounded = false`.
